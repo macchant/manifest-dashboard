@@ -19,7 +19,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
-  // Load data dari Supabase
+  // Load data dari Supabase (versi final, hanya 1)
   async function loadData() {
     setLoading(true);
 
@@ -27,6 +27,9 @@ export default function Dashboard() {
       .from("manifest")
       .select("*")
       .order("id", { ascending: false });
+
+    console.log("DATA:", rows);
+    console.log("ERROR:", error);
 
     if (error) {
       console.error("Supabase error:", error);
@@ -40,28 +43,6 @@ export default function Dashboard() {
   useEffect(() => {
     loadData();
   }, []);
-
-
-async function loadData() {
-  setLoading(true);
-
-  const { data: rows, error } = await supabase
-    .from("manifest")
-    .select("*")
-    .order("id", { ascending: false });
-
-  console.log("DATA:", rows);
-  console.log("ERROR:", error);
-
-  if (error) {
-    console.error("Supabase error:", error);
-  } else if (rows) {
-    setData(rows);
-  }
-
-  setLoading(false);
-}
-
 
   // Filter pencarian
   const filtered = data.filter((item) => {
